@@ -5,8 +5,8 @@ export default function DetailPage() {
   return (
     <div>
       <Box>
-        <Typography variant="h4">{title}</Typography>
-        <Typography variant="body1">{content}</Typography>
+        <TextField variant="h4">{title}</TextField>
+        <TextField variant="body1">{content}</TextField>
       </Box>
     </div>
   );
