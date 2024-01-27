@@ -4,18 +4,20 @@ import { Container, TextField, Button, Box, Typography } from "@mui/material";
 
 export default function Main({
   selectedDocument,
+  setSelectedDocument,
   newDocument,
   setNewDocument,
-  setIsEditing,
   isEditing,
-  setSelectedDocument,
+  setIsEditing,
   documents,
   setDocuments,
 }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [editingContent, setEditingContent] = useState("");
+  const [editingTitle, setEditingTitle] = useState("");
 
+  console.log("선택된 값확인중", selectedDocument);
   useEffect(() => {
     const storedContent = localStorage.getItem("content");
     if (storedContent) {
@@ -52,7 +54,11 @@ export default function Main({
     setDocuments((prevDocuments) =>
       prevDocuments.map((doc) =>
         doc.id === selectedDocument.id
-          ? { ...doc, content: editingContent }
+          ? {
+              ...doc,
+              title: editingTitle || doc.title,
+              content: editingContent || doc.content,
+            }
           : doc
       )
     );
@@ -63,7 +69,11 @@ export default function Main({
       JSON.stringify(
         documents.map((doc) =>
           doc.id === selectedDocument.id
-            ? { ...doc, content: editingContent }
+            ? {
+                ...doc,
+                title: editingTitle || doc.title,
+                content: editingContent || doc.content,
+              }
             : doc
         )
       )
@@ -72,13 +82,27 @@ export default function Main({
     // 편집 상태 초기화
     setSelectedDocument(null);
     setEditingContent("");
+    setEditingTitle("");
     setIsEditing(false);
   };
 
   return (
     <Container maxWidth="lg" sx={{ flex: 1 }}>
-      <Box display="flex" justifyContent="flex-end" mb={1} mt={4}>
-        {selectedDocument && (
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-end"
+        mb={1}
+        mt={4}
+        sx={{
+          paddingLeft: "100px",
+          "@media (min-width: 800px)": {
+            flexDirection: "row",
+            alignItems: "center",
+          },
+        }}
+      >
+        {selectedDocument && !isEditing && (
           <Button variant="contained" color="primary" onClick={handleEdit}>
             수정
           </Button>
@@ -95,7 +119,7 @@ export default function Main({
         )}
       </Box>
 
-      {selectedDocument ? (
+      {selectedDocument && !isEditing && (
         // 선택한 문서의 내용 표시
         <>
           <Typography variant="h4" mb={3}>
@@ -104,18 +128,34 @@ export default function Main({
           <Typography variant="body1" mb={2}>
             {selectedDocument.content}
           </Typography>
-          {/* <TextField
+        </>
+      )}
+
+      {isEditing && (
+        // 선택한 문서 수정
+        <>
+          <TextField
+            label="Title"
+            value={editingTitle || selectedDocument.title}
+            onChange={(e) => setEditingTitle(e.target.value)}
+            multiline
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
             label="Content"
-            value={editingContent}
+            value={editingContent || selectedDocument.content}
             onChange={(e) => setEditingContent(e.target.value)}
             multiline
             rows={10}
             fullWidth
             margin="normal"
             variant="outlined"
-          /> */}
+          />
         </>
-      ) : (
+      )}
+      {newDocument && (
         // 새로운 문서 작성 시의 입력 필드
         <>
           <TextField
@@ -123,7 +163,6 @@ export default function Main({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             multiline
-            // rows={10}
             fullWidth
             margin="normal"
             variant="outlined"
