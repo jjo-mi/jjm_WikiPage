@@ -20,7 +20,6 @@ export default function Sidebar({
   setIsEditing,
 }) {
   const handleDocumentClick = (document) => {
-    console.log("ch", document);
     setSelectedDocument(document);
     setIsEditing(false);
     setNewDocument(false);
@@ -66,8 +65,8 @@ export default function Sidebar({
             key={doc.id}
             onClick={() => handleDocumentClick(doc)}
             sx={{
-              textOverflow: "ellipsis", // 말줄임
-              whiteSpace: "nowrap", // 줄 바꿈 방지
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
               width: "100%",
             }}
           >

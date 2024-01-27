@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 function App() {
   const BASIC_MEMO = [
@@ -52,8 +52,8 @@ function App() {
       setDocuments(BASIC_MEMO);
       localStorage.setItem("documents", JSON.stringify(BASIC_MEMO));
     }
-    console.log("초기", documents);
-  }, [documents]);
+    // console.log("초기", documents);
+  }, []);
 
   return (
     <Grid container style={{ width: "100%", height: "100%" }}>

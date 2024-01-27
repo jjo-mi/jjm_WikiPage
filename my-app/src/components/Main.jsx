@@ -17,7 +17,7 @@ export default function Main({
   const [editingContent, setEditingContent] = useState("");
   const [editingTitle, setEditingTitle] = useState("");
 
-  console.log("선택된 값확인중", selectedDocument);
+  // console.log("선택된 값확인중", selectedDocument);
   useEffect(() => {
     const storedContent = localStorage.getItem("content");
     if (storedContent) {
@@ -27,7 +27,7 @@ export default function Main({
 
   const handleSave = () => {
     const id = new Date().getTime();
-    console.log("저장", id);
+
     const newDocumentObj = { id, title, content };
 
     setDocuments((prevDocuments) => [...prevDocuments, newDocumentObj]);
@@ -43,13 +43,10 @@ export default function Main({
   };
 
   const handleEdit = () => {
-    // setEditingContent(selectedDocument.content);
-    console.log("수정");
     setIsEditing(true);
   };
 
   const handleUpdate = () => {
-    console.log("수정 적용");
     // 업데이트된 내용으로 기존 문서를 수정
     setDocuments((prevDocuments) =>
       prevDocuments.map((doc) =>
