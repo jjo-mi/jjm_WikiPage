@@ -8,8 +8,10 @@ export default function Main({
   documents,
   setDocuments,
 }) {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [editingContent, setEditingContent] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const storedContent = localStorage.getItem("content");
@@ -20,7 +22,7 @@ export default function Main({
 
   const handleSave = () => {
     const id = new Date().getTime();
-    const newDocumentObj = { id, title: `Document ${id}`, content };
+    const newDocumentObj = { id, title, content };
 
     setDocuments((prevDocuments) => [...prevDocuments, newDocumentObj]);
     localStorage.setItem(
@@ -29,11 +31,13 @@ export default function Main({
     );
 
     // 입력 필드 초기화
+    setTitle("");
     setContent("");
   };
 
   const handleEdit = () => {
-    setEditingContent(selectedDocument.content);
+    // setEditingContent(selectedDocument.content);
+    setIsEditing(true);
   };
 
   const handleUpdate = () => {
@@ -61,13 +65,14 @@ export default function Main({
     // 편집 상태 초기화
     setSelectedDocument(null);
     setEditingContent("");
+    setIsEditing(false);
   };
 
   return (
     <Container maxWidth="lg" sx={{ flex: 1 }}>
       <Box display="flex" justifyContent="flex-end" mb={1} mt={4}>
         {selectedDocument ? (
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
+          <Button variant="contained" color="primary" onClick={handleEdit}>
             수정
           </Button>
         ) : (
@@ -75,7 +80,7 @@ export default function Main({
             저장
           </Button>
         )}
-        {selectedDocument && (
+        {isEditing && (
           <Button variant="contained" color="primary" onClick={handleEdit}>
             편집
           </Button>
@@ -85,10 +90,13 @@ export default function Main({
       {selectedDocument ? (
         // 선택한 문서의 내용 표시
         <>
-          <Typography variant="h4" mb={2}>
+          <Typography variant="h4" mb={3}>
             {selectedDocument.title}
           </Typography>
-          <TextField
+          <Typography variant="body1" mb={2}>
+            {selectedDocument.content}
+          </Typography>
+          {/* <TextField
             label="Content"
             value={editingContent}
             onChange={(e) => setEditingContent(e.target.value)}
@@ -97,20 +105,32 @@ export default function Main({
             fullWidth
             margin="normal"
             variant="outlined"
-          />
+          /> */}
         </>
       ) : (
         // 새로운 문서 작성 시의 입력 필드
-        <TextField
-          label="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          multiline
-          rows={10}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-        />
+        <>
+          <TextField
+            label="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            multiline
+            // rows={10}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            label="Content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            multiline
+            rows={10}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+        </>
       )}
     </Container>
   );

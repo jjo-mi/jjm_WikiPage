@@ -9,6 +9,7 @@ import { Box, Grid } from "@mui/material";
 function App() {
   const [newDocument, setNewDocument] = useState("");
   const [documents, setDocuments] = useState([]);
+  const [selectedDocument, setSelectedDocument] = useState();
 
   const handleNewDocument = () => {
     setDocuments([...documents, newDocument]);
@@ -22,11 +23,14 @@ function App() {
       </Grid>
       <Grid item xs={2}>
         {/* <div style={{ display: "flex", marginTop: "70px" }}> */}
-        <Sidebar documents={documents} />
+        <Sidebar
+          documents={documents}
+          setSelectedDocument={setSelectedDocument}
+        />
       </Grid>
       <Grid item xs={10}>
         <Main
-          newDocument={newDocument}
+          selectedDocument={selectedDocument}
           setNewDocument={setNewDocument}
           documents={documents}
           handleNewDocument={handleNewDocument}

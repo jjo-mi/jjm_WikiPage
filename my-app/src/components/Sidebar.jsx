@@ -15,8 +15,16 @@ import SendIcon from "@mui/icons-material/Send";
 
 export default function Sidebar({ documents, setSelectedDocument }) {
   const handleDocumentClick = (document) => {
+    console.log("ch", document);
     setSelectedDocument(document);
   };
+
+  // const handleNewDocumentClick = () => {
+  //   // 기본적으로 title과 content가 필요한 새 문서 생성
+  //   const newDocument = { title: "새 문서", content: "" };
+  //   setSelectedDocument(newDocument);
+  // };
+
   return (
     <Drawer
       variant="permanent"
@@ -48,10 +56,10 @@ export default function Sidebar({ documents, setSelectedDocument }) {
           <ListItemText primary="새 문서 작성" />
         </ListItemButton>
         <Divider />
-        {documents.map((doc, index) => (
-          <ListItem button key={index}>
-            <ListItemText primary={doc} />
-          </ListItem>
+        {documents.map((doc) => (
+          <ListItemButton key={doc.id} onClick={() => handleDocumentClick(doc)}>
+            <ListItemText primary={doc.title} />
+          </ListItemButton>
         ))}
       </List>
     </Drawer>
