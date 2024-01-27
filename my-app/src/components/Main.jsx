@@ -22,6 +22,7 @@ export default function Main({
 
   const handleSave = () => {
     const id = new Date().getTime();
+    console.log("저장", id);
     const newDocumentObj = { id, title, content };
 
     setDocuments((prevDocuments) => [...prevDocuments, newDocumentObj]);
@@ -37,10 +38,12 @@ export default function Main({
 
   const handleEdit = () => {
     // setEditingContent(selectedDocument.content);
+    console.log("수정");
     setIsEditing(true);
   };
 
   const handleUpdate = () => {
+    console.log("수정 적용");
     // 업데이트된 내용으로 기존 문서를 수정
     setDocuments((prevDocuments) =>
       prevDocuments.map((doc) =>
@@ -75,14 +78,13 @@ export default function Main({
           <Button variant="contained" color="primary" onClick={handleEdit}>
             수정
           </Button>
+        ) : isEditing ? (
+          <Button variant="contained" color="primary" onClick={handleUpdate}>
+            적용
+          </Button>
         ) : (
           <Button variant="contained" color="primary" onClick={handleSave}>
             저장
-          </Button>
-        )}
-        {isEditing && (
-          <Button variant="contained" color="primary" onClick={handleEdit}>
-            편집
           </Button>
         )}
       </Box>

@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -15,6 +15,15 @@ function App() {
     setDocuments([...documents, newDocument]);
     setNewDocument("");
   };
+
+  useEffect(() => {
+    const storedContent = localStorage.getItem("documents");
+    if (storedContent) {
+      setDocuments(JSON.parse(storedContent));
+    }
+    console.log("초기", documents);
+  }, []);
+
   return (
     // <Box id="root">
     <Grid container style={{ width: "100%", height: "100%", bgcolor: "Pink" }}>
