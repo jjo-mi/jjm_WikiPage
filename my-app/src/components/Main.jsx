@@ -84,13 +84,13 @@ export default function Main({
   };
 
   return (
-    <Container maxWidth="lg" sx={{ flex: 1 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        flex: 1,
+      }}
+    >
       <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="flex-end"
-        mb={1}
-        mt={4}
         sx={{
           paddingLeft: "100px",
           "@media (min-width: 800px)": {
@@ -99,83 +99,85 @@ export default function Main({
           },
         }}
       >
+        <Box display="flex" justifyContent="flex-end" mb={1} mt={4}>
+          {selectedDocument && !isEditing && (
+            <Button variant="contained" color="primary" onClick={handleEdit}>
+              수정
+            </Button>
+          )}
+          {isEditing && (
+            <Button variant="contained" color="primary" onClick={handleUpdate}>
+              적용
+            </Button>
+          )}
+          {newDocument && (
+            <Button variant="contained" color="primary" onClick={handleSave}>
+              저장
+            </Button>
+          )}
+        </Box>
+
         {selectedDocument && !isEditing && (
-          <Button variant="contained" color="primary" onClick={handleEdit}>
-            수정
-          </Button>
+          // 선택한 문서의 내용 표시
+          <>
+            <Typography variant="h4" mb={3}>
+              {selectedDocument.title}
+            </Typography>
+            <Typography variant="body1" mb={2}>
+              {selectedDocument.content}
+            </Typography>
+          </>
         )}
+
         {isEditing && (
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
-            적용
-          </Button>
+          // 선택한 문서 수정
+          <>
+            <TextField
+              label="Title"
+              value={editingTitle || selectedDocument.title}
+              onChange={(e) => setEditingTitle(e.target.value)}
+              multiline
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              label="Content"
+              value={editingContent || selectedDocument.content}
+              onChange={(e) => setEditingContent(e.target.value)}
+              multiline
+              rows={10}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+          </>
         )}
         {newDocument && (
-          <Button variant="contained" color="primary" onClick={handleSave}>
-            저장
-          </Button>
+          // 새로운 문서 작성 시의 입력 필드
+          <>
+            <TextField
+              label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              multiline
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              label="Content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              multiline
+              rows={10}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+          </>
         )}
       </Box>
-
-      {selectedDocument && !isEditing && (
-        // 선택한 문서의 내용 표시
-        <>
-          <Typography variant="h4" mb={3}>
-            {selectedDocument.title}
-          </Typography>
-          <Typography variant="body1" mb={2}>
-            {selectedDocument.content}
-          </Typography>
-        </>
-      )}
-
-      {isEditing && (
-        // 선택한 문서 수정
-        <>
-          <TextField
-            label="Title"
-            value={editingTitle || selectedDocument.title}
-            onChange={(e) => setEditingTitle(e.target.value)}
-            multiline
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            label="Content"
-            value={editingContent || selectedDocument.content}
-            onChange={(e) => setEditingContent(e.target.value)}
-            multiline
-            rows={10}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-        </>
-      )}
-      {newDocument && (
-        // 새로운 문서 작성 시의 입력 필드
-        <>
-          <TextField
-            label="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            multiline
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            label="Content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            multiline
-            rows={10}
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-        </>
-      )}
     </Container>
   );
 }
