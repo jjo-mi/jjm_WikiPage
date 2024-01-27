@@ -4,6 +4,10 @@ import { Container, TextField, Button, Box, Typography } from "@mui/material";
 
 export default function Main({
   selectedDocument,
+  newDocument,
+  setNewDocument,
+  setIsEditing,
+  isEditing,
   setSelectedDocument,
   documents,
   setDocuments,
@@ -11,7 +15,6 @@ export default function Main({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [editingContent, setEditingContent] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const storedContent = localStorage.getItem("content");
@@ -34,6 +37,7 @@ export default function Main({
     // 입력 필드 초기화
     setTitle("");
     setContent("");
+    setNewDocument(false);
   };
 
   const handleEdit = () => {
@@ -74,15 +78,17 @@ export default function Main({
   return (
     <Container maxWidth="lg" sx={{ flex: 1 }}>
       <Box display="flex" justifyContent="flex-end" mb={1} mt={4}>
-        {selectedDocument ? (
+        {selectedDocument && (
           <Button variant="contained" color="primary" onClick={handleEdit}>
             수정
           </Button>
-        ) : isEditing ? (
+        )}
+        {isEditing && (
           <Button variant="contained" color="primary" onClick={handleUpdate}>
             적용
           </Button>
-        ) : (
+        )}
+        {newDocument && (
           <Button variant="contained" color="primary" onClick={handleSave}>
             저장
           </Button>

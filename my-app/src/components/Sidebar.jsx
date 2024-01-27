@@ -13,10 +13,17 @@ import {
 
 import SendIcon from "@mui/icons-material/Send";
 
-export default function Sidebar({ documents, setSelectedDocument }) {
+export default function Sidebar({
+  documents,
+  setNewDocument,
+  setSelectedDocument,
+  setIsEditing,
+}) {
   const handleDocumentClick = (document) => {
     console.log("ch", document);
     setSelectedDocument(document);
+    setIsEditing(false);
+    setNewDocument(false);
   };
 
   // const handleNewDocumentClick = () => {
@@ -53,7 +60,10 @@ export default function Sidebar({ documents, setSelectedDocument }) {
           <ListItemIcon>
             <SendIcon />
           </ListItemIcon>
-          <ListItemText primary="새 문서 작성" />
+          <ListItemText
+            primary="새 문서 작성"
+            onClick={() => setNewDocument(true)}
+          />
         </ListItemButton>
         <Divider />
         {documents.map((doc) => (
