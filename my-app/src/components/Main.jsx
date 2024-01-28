@@ -36,6 +36,9 @@ export default function Main({
       JSON.stringify([...documents, newDocumentObj])
     );
 
+    // 선택된 문서로 변경
+    setSelectedDocument(newDocumentObj);
+
     // 입력 필드 초기화
     setTitle("");
     setContent("");
